@@ -29,7 +29,7 @@ export default function CheckAuth({ isAuthenticated, user, children }) {
     user?.role !== 'admin' &&
     location.pathname.includes('admin')
   ) {
-    return <Navigate to="/unauth=page" />;
+    return <Navigate to="/unauth-page" />;
   }
   // redirect admin to dashboard
   if (
