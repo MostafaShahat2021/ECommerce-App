@@ -1,17 +1,28 @@
-require('dotenv').config()
-const express = require("express");
-const mongoose = require("mongoose");
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
-MONGO_URI = process.env.MONGO_URI;
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
+const MONGO_URI = process.env.MONGO_URI;
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const authRouter = require('./routes/auth/auth-routes');
 
 const app = express();
 
 // connect to MongoDB
-mongoose.connect(MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((error) => console.log(error))
+const connectDB = async (connectionString) => {
+  try {
+    await mongoose
+      .connect(connectionString)
+      .then(() => console.log('MongoDB Connected'))
+      .then(
+        app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+      );
+  } catch (error) {
+    console.log(error);
+  }
+};
+connectDB(MONGO_URI);
 
 // middlewares
 app.use(
@@ -23,13 +34,13 @@ app.use(
       'Authorization',
       'Cash-Control',
       'Expires',
-      'Pragma'
+      'Pragma',
     ],
-    credentials: true
+    credentials: true,
   })
 );
 
 app.use(express.json());
 app.use(cookieParser());
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+app.use('/api/auth', authRouter);
