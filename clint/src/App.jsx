@@ -18,11 +18,8 @@ import UnauthPage from './pages/unauth-page';
 
 function App() {
   //test CheckAuth
-  const isAuthenticated = true;
-  const user = {
-    name: 'Mostafa',
-    role: 'user',
-  };
+  const isAuthenticated = false;
+  const user = null;
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       {/* common component */}
